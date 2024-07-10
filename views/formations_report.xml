@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- View tree -->
+        <record id="view_formations_report_tree" model="ir.ui.view">
+            <field name="name">formation.phi.bis.tree</field>
+            <field name="model">formation.phi.bis</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="partner_id"/>
+                    <field name="formation_date_begin" />
+                    <field name="formation_date_end" />
+                    <field name="teacher" widget="many2many_tags" />
+                    <field name="location" />
+                    <field name="state" />
+                   <!-- <field name="odoo_version"/> -->
+                </tree>
+             </field>
+        </record>
+
+        <!-- View form -->
+        <record id="view_formations_report_form" model="ir.ui.view">
+            <field name="name">formation.phi.bis.form</field>
+            <field name="model">formation.phi.bis</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- State button -->
+                    <header>
+                        <button name="action_send_formation_plan" id="action_send_formation_plan" data-hotkey="v" string="Envoi du plan de formation" class="btn-primary" type="object" tracking="1"  />
+                        <button name="action_send_survey" string="Envoi des evaluations" type="object" class="oe_highlight" tracking="1"   />
+                        <button name="%(PhidiasFormation_specifique.lost_formation_wizard)d" string="Annuler" type="action"  data-hotkey="v" attrs="{'invisible': [('formation_restore', '=', False)]}"/>
+                        <button name="action_restore_formation" string="Restorer"  data-hotkey="v" type="object" attrs="{'invisible': [('formation_restore', '=', True)]}"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" click="action_change_state">
+                            <status value="new" click="action_change_state"/>
+                            <status value="in_progress" click="action_change_state"/>
+                            <status value="done" click="action_change_state"/>
+                            <status value="cancel" name="action_change_state"/>
+                        </field>
+                        <field name="formation_restore" invisible="1"  />
+                    </header>
+                    <sheet>
+                        <!-- Smart Button section -->
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_session">
+                                <div class="o_stat_info">
+                                    <field  name="session_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Session(s)</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_folder">
+                                <div class="o_stat_info">
+                                    <field  name="formation_folder_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Dossier de formation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_support">
+                                <div class="o_stat_info">
+                                    <field  name="formation_support_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Support(s) de formation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_debrief">
+                                <div class="o_stat_info">
+                                    <field  name="formation_debrief_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Compte-rendu</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_reclamation">
+                                <div class="o_stat_info">
+                                    <field  name="formation_reclamation_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Fiche(s) de réclamation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_application">
+                                <div class="o_stat_info">
+                                    <field  name="formation_application_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Sondage(s)</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_fiche_emargement">
+                                <div class="o_stat_info">
+                                    <field  name="fiche_emargement_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Fiche(s) d'émargement</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_plan_formation">
+                                <div class="o_stat_info">
+                                    <field  name="plan_formation_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Plan de formation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_access">
+                                <div class="o_stat_info">
+                                    <field  name="access_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Accès</span>
+                                </div>
+                            </button>
+                            <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_partner_invoices" >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="total_invoiced_count" />
+                                    </span>
+                                    <span class="o_stat_text">Devis</span>
+                                </div>
+                            </button>
+                            <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_attendees" >
+                                <div class="o_stat_info">
+                                    <field name="total_attendees_count" widget="statinfo" class="o_stat_value" />
+                                    <span class="o_stat_text">Participant(s)</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_evaluation">
+                                <div class="o_stat_info">
+                                    <field  name="eval_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Evaluation</span>
+                                </div>
+                            </button>
+                            <button
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"
+                                name="action_open_factures"
+                            >
+                                <field name="invoice_count" widget="statinfo" />
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Annulée" bg_color="bg-danger" attrs="{'invisible': [('formation_restore', '=', True)]}"/>
+                        <!-- Title -->
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="formation_date_begin" />
+                                <div class="o_row">
+                                    <field name="formation_date_begin" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'formation_date_end'}"/>
+                                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="formation_date_end" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'formation_date_begin'}" />
+                                </div>
+                                <field name="partner_id"/>
+                                <field name="teacher" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <!-- <field name="company_id" groups="base.group_multi_company"/> -->
+                                <field name="location" />
+                                <field name="address_id"
+                                    widget="contact"
+                                    context="{'show_address': 1}"
+                                    options='{"always_reload": True}'
+                                    attrs="{'invisible':[('location','=','url')]}"
+                                />
+                                <field name="formation_url"
+                                       attrs="{'invisible':[('location','!=','url')]}"
+                                       widget="url" />
+                                <field name="odoo_version" />
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page name="plandeformation" string="Programme de formation">
+                                <div>
+                                    <span class="o_form_label o_td_label">
+                                        <b>Programme de base</b>
+                                    </span>
+                                    <field name="programme" />
+                                   <button class="oe_stat_button" type="object" name="action_add_programme_formation">Ajouter</button>
+                                </div>
+                                <div>
+                                     <span class="o_form_label o_td_label">
+                                            <b>Programme </b>
+                                        </span>
+                                    <field name="programme_ids" mode="kanban" context="{'default_name': name }">
+                                        <kanban create="false" js_class="box_kanban_view">
+                                            <field name="name"/>
+                                            <field name="objectif"/>
+                                                <templates>
+                                                    <t t-name="kanban-box">
+                                                        <div>
+                                                            <div class="oe_kanban_details">
+                                                                <div t-if="programme">
+                                                                    <field name="name"/>
+                                                                    <field name="objectif"/>
+                                                                    <field name="evaluation"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </templates>
+                                        </kanban>
+                                    </field>
+                                </div>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- View kanban -->
+        <record model="ir.ui.view" id="view_formation_report_kanban">
+            <field name="name">Formation Kanban</field>
+            <field name="model">formation.phi.bis</field>
+            <field name="arch" type="xml">
+                <kanban class="o_event_kanban_view" default_group_by="state"  sample="1">
+                    <field name="state" options="{'sortable': true}"  />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="d-flex flex-column p-0 oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_content p-0 m-0 position-relative row d-flex flex-fill">
+                                    <div class="col-3 bg-primary p-2 text-center d-flex flex-column justify-content-center">
+                                        <!-- Date -->
+                                        <div t-if="record.formation_date_begin.raw_value">
+                                            <div t-esc="moment(record.formation_date_begin.raw_value).toDate().getDate()" class="o_event_fontsize_20"/>
+                                        </div>
+                                        <div>
+                                            <t t-esc="moment(record.formation_date_begin.raw_value).format('MMM')"/>
+                                            <t t-esc="moment(record.formation_date_begin.raw_value).format('YYYY')"/>
+                                        </div>
+                                        <div><t t-esc="moment(record.formation_date_begin.raw_value).format('LT')"/></div>
+                                        <div t-if="moment(record.formation_date_begin.raw_value).dayOfYear() !== moment(record.formation_date_end.raw_value).dayOfYear()">
+                                            <i class="fa fa-arrow-right o_event_fontsize_09" title="End date"/>
+                                            <t t-esc="moment(record.formation_date_end.raw_value).format('D MMM')"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-9 py-2 px-3 d-flex flex-column justify-content-between pt-3">
+                                        <div>
+                                            <div class="o_kanban_record_title o_text_overflow" t-att-title="record.name.value">
+                                                <field name="name"/>
+                                            </div>
+                                            <div t-if="record.address_id.value"><i class="fa fa-map-marker" title="Location"/> <field name="address_id"/></div>
+                                        </div>
+                                        <div class="o_kanban_content">
+                                            <div class="o_kanban_left">
+                                                <div class="o_kanban_field" style="display: none;">
+                                                    <span class="o_field_name">Start Date</span>
+                                                    <field name="formation_date_begin"/>
+                                                </div>
+                                                <div class="o_kanban_field" style="display: none;">
+                                                    <span class="o_field_name">End Date</span>
+                                                    <field name="formation_date_end"/>
+                                                </div>
+                                            </div>
+                                            <div class="o_kanban_right">
+                                                <div class="o_kanban_field">
+                                                    <field name="total_attendees_count" widget="statinfo" class="o_stat_value"/>
+                                                </div>
+                                                <div class="o_kanban_field">
+                                                    <span class="o_field_name">Teacher</span>
+                                                    <field name="teacher" widget="many2many_tags"/>
+                                                </div>
+                                                <div class="o_kanban_field">
+                                                    <field name="location"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Action -->
+        <record id="action_formations_records" model="ir.actions.act_window">
+            <field name="name">Formations</field>
+            <field name="res_model">formation.phi.bis</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Menu -->
+        <menuitem name="Phidias Formation"
+        id="phidias_formation_root_menu"
+        sequence="10"
+        />
+
+        <!-- Main top menu elements -->
+        <menuitem name="Formations"
+        id="phidias_formation_menu_formation"
+        parent="phidias_formation_root_menu"
+        sequence="10"
+        />
+        <menuitem name="Reporting"
+        id="phidias_formation_menu_reporting"
+        parent="phidias_formation_root_menu"
+        sequence="10"
+        />
+        <menuitem name="Configuration"
+        id="phidias_formation_menu_configuration"
+        parent="phidias_formation_root_menu"
+        sequence="10"
+        action="action_formations_records"
+        />
+
+        <!-- Formation sub-menu -->
+        <menuitem id="phidias_formation_menu_formation_formation"
+        name="Formations"
+        action="action_formations_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_DossierFormation"
+        name="Dossier de Formation"
+        action="action_dossier_formations_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_SupportFormation"
+        name="Support de Formation"
+        action="action_support_formations_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_DemandeFormation"
+        name="Demande de formation"
+        action="action_demande_formations_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_PreRequis"
+        name="Pre requis"
+        action="action_formations_pre_requis_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_FicheReclamation"
+        name="Fiche de réclamation"
+        action="action_fiche_reclamation_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_CompteRendu"
+        name="Compte-Rendu"
+        action="action_formations_debrif_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_Presence"
+        name="Fiche Emargement"
+        action="action_formations_presence_records"
+        parent="phidias_formation_menu_formation" />
+        <menuitem id="phidias_formation_menu_formation_Access"
+        name="Acces"
+        action="action_formations_access_records"
+        parent="phidias_formation_menu_formation" />
+
+        <!-- Configuration sub-menu -->
+        <menuitem id="phidias_formation_menu_config_modules"
+        name="Modules"
+        action="action_formations_modules_records"
+        parent="phidias_formation_menu_configuration" />
+        <menuitem id="phidias_formation_menu_config_formateurs"
+        name="Formateurs"
+        action="action_formations_records"
+        parent="phidias_formation_menu_configuration" />
+        <menuitem id="phidias_formation_config_PlanFormation"
+        name="Programme de formation"
+        action="action_programme_formation_records"
+        parent="phidias_formation_menu_configuration" />
+        <menuitem id="phidias_formation_menu_config_ModeleMails"
+        name="Modèle de mails"
+        action="action_mail_template_records"
+        parent="phidias_formation_menu_configuration" />
+        <menuitem id="phidias_formation_menu_config_OdooVersion"
+        name="Odoo Version"
+        action="action_odoo_version_records"
+        parent="phidias_formation_menu_configuration" />
+        <menuitem id="phidias_formation_menu_reporting_lostReason"
+        name="Motifs d'annulation"
+        action="action_lost_reason_phidias_records"
+        parent="phidias_formation_menu_configuration" />
+
+        <!-- Reporting sub-menu -->
+        <menuitem id="phidias_formation_menu_reporting_sessions"
+        name="Sessions"
+        action="action_formations_sessions_records"
+        parent="phidias_formation_menu_reporting" />
+        <menuitem id="phidias_formation_menu_reporting_eval"
+        name="Evaluations"
+        action="action_formations_eval_records"
+        parent="phidias_formation_menu_reporting" />
+        <menuitem id="phidias_formation_menu_reporting_participants"
+        name="Participants"
+        action="action_formations_participants_records"
+        parent="phidias_formation_menu_reporting" />
+    </data>
+</odoo>

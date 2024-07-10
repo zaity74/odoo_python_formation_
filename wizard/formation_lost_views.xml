@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="lost_formation_view_form" model="ir.ui.view">
+            <field name="name">formations.lost.wizard</field>
+            <field name="model">formations.lost</field>
+            <field name="arch" type="xml">
+                <form string="Lost Reason">
+                    <group class="oe_title">
+                        <field name="lost_reason_id" options="{'no_create_edit': True}" />
+                    </group>
+                    <footer>
+                        <button name="action_lost_formation" string="Submit" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="lost_formation_wizard" model="ir.actions.act_window">
+            <field name="name">Annuler la formation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">formations.lost</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="lost_formation_view_form"/>
+            <field name="target">new</field>
+        </record>
+</odoo>

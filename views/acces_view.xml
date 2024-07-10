@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_formations_access_tree" model="ir.ui.view">
+            <field name="name">formations.access.tree</field>
+            <field name="model">formations.access</field>
+            <field name="arch" type="xml">
+                <tree string="Acces" sample="1">
+                    <field name="name"/>
+                    <field name="formation_id" />
+                    <field name="slide_type" />
+                    <field name="documents_name" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_formations_access_form" model="ir.ui.view">
+            <field name="name">formations.access.form</field>
+            <field name="model">formations.access</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" />
+                            </h1>
+                        </div>
+                        <!-- View form description -->
+                        <group>
+                            <group>
+                                <field name="formation_id" attrs="{'readonly':[('formation_id','!=', False)]}" />
+                                <field name="slide_type" />
+                                <field name="formation_url" filename="documents_name" widget="url" />
+                                <field name="documents_name" invisible='1' />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_formations_access_records" model="ir.actions.act_window" >
+            <field name="name">Acces</field>
+            <field name="res_model">formations.access</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

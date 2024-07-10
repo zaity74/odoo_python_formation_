@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="postponed_session_view_form" model="ir.ui.view">
+            <field name="name">postponed.lost.wizard</field>
+            <field name="model">sessions.postponed</field>
+            <field name="arch" type="xml">
+                <form string="Lost Reason">
+                    <group class="oe_title">
+                        <field name="postponed_reason_id" options="{'no_create_edit': True}" />
+                    </group>
+                    <footer>
+                        <button name="action_postponed_session" string="Submit" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="postponed_sessions_wizard" model="ir.actions.act_window">
+            <field name="name">Reporté la formation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sessions.postponed</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="postponed_session_view_form"/>
+            <field name="target">new</field>
+        </record>
+</odoo>

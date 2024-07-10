@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tree view -->
+        <record id="view_programme_formation_tree" model="ir.ui.view">
+            <field name="name">programme.formation.tree</field>
+            <field name="model">programme.formation</field>
+            <field name="arch" type="xml">
+                <tree string="Programme formation" sample="1">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_programme_formation_form" model="ir.ui.view">
+            <field name="name">programme.formation.form</field>
+            <field name="model">programme.formation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" />
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group name="details" string="Description du programme" >
+                                <span class="o_form_label o_td_label">
+                                    <b>Description</b>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="objectif" placeholder="Objectif..." class="o_address_street" />
+                                    <field name="durée" placeholder="durée..." class="o_address_street" />
+                                    <field name="evaluation" placeholder="Evaluation..." class="o_address_street" />
+
+                                </div>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_programme_formation_records" model="ir.actions.act_window">
+            <field name="name">Programme formation</field>
+            <field name="res_model">programme.formation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

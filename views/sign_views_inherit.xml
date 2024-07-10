@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sign_request_item_inherit_phidias" model="ir.ui.view">
+        <field name="name">sign.request.item.tree.inherit.formation.phi.bis</field>
+        <field name="model">sign.request.item</field>
+        <field name="inherit_id" ref="sign.sign_request_item_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="formation_id" required="1"/>
+                <field name="session_id" required="1"/>
+            </xpath>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="multi_edit">1</attribute>
+            </xpath>
+        </field>
+    </record>
+     <record id="ssign_request_view_tree_inherit_phidias" model="ir.ui.view">
+        <field name="name">sign.request.tree.inherit.formation.phi.bis</field>
+        <field name="model">sign.request</field>
+        <field name="inherit_id" ref="sign.sign_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="formation_id" required="1"/>
+                <field name="session_id" required="1"/>
+            </xpath>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="multi_edit">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

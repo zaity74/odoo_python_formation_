@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="view_mail_template_custom_phidias" model="ir.ui.view">
+            <field name="name">mail.template.custom.phidias</field>
+            <field name="model">mail.template</field>
+            <field name="inherit_id" ref="mail.email_template_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="string">Custom Email Templates</attribute>
+                </xpath>
+                <field name="model_id" domain="[('model_id', '=', 1)]"/>
+            </field>
+        </record>
+
+         <!-- Actions -->
+        <record id="action_mail_template_records" model="ir.actions.act_window" >
+            <field name="name">Template de mail </field>
+            <field name="res_model">mail.template</field>
+            <field name="view_id" ref="view_mail_template_custom_phidias" />
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

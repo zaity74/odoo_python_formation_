@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_formations_sessions_tree" model="ir.ui.view">
+            <field name="name">formations.sessions.tree</field>
+            <field name="model">formations.sessions</field>
+            <field name="arch" type="xml">
+                <tree string="Sessions" sample="1">
+                    <field name="name"/>
+                    <field name="formation_id" />
+                    <field name="teacher" widget="many2many_tags" />
+                    <field name="address_id" />
+                    <field name="session_date_begin" />
+                    <field name="session_date_end" />
+                    <field name="completion_time_start"/>
+                    <field name="formation_modules"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_formations_sessions_form" model="ir.ui.view">
+            <field name="name">formations.sessions.form</field>
+            <field name="model">formations.sessions</field>
+            <field name="arch" type="xml">
+                <form>
+                     <header>
+                        <button name="action_send_formation_support" id="action_send_formation_support" data-hotkey="v" string="Envoie du support de formation" class="btn-primary" type="object" tracking="1" />
+                        <button name="action_send_survey" string="Envoi des évaluations" type="object" class="oe_highlight" tracking="1"   />
+                        <button name="action_send_formation_access" id="action_send_formation_access" data-hotkey="v" string="Lien d'accès" class="btn-primary" type="object" tracking="1" />
+                        <button name="action_confirm" string="Confirmé" states="draft" type="object" class="oe_highlight" tracking="1"/>
+                        <button name="action_set_draft" string="Marqué comme non confirmé" states="cancel" type="object" />
+                        <button name="action_send_badge_email" string="Envoyer la convocation" type="object" states="open" class="oe_highlight" tracking="1"/>
+                        <button name="%(PhidiasFormation_specifique.lost_session_wizard)d" string="Annuler" type="action"  data-hotkey="v" attrs="{'invisible': [('session_restore', '=', False)]}"/>
+                        <button name="%(PhidiasFormation_specifique.postponed_sessions_wizard)d" string="Reporté" type="action"  data-hotkey="v" attrs="{'invisible': [('session_restore', '=', False)]}"/>
+                        <button name="action_restore_session" string="Restorer"  data-hotkey="v" type="object" attrs="{'invisible': [('session_restore', '=', True)]}"/>
+                        <button name="action_end_session" string="Terminé"  data-hotkey="v" type="object" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <field name="state" nolabel="1" colspan="2" widget="statusbar" statusbar_visible="draft,open,end,cancel,reported"/>
+                        <field name="session_restore" invisible="1"  />
+                    </header>
+                    <sheet>
+                        <!-- Button section -->
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_fiche_emargement">
+                                <div class="o_stat_info">
+                                    <field  name="fiche_emargement_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Fiche d'émargement</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_evaluation">
+                                <div class="o_stat_info">
+                                    <field  name="eval_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Evaluation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_support_formation">
+                                <div class="o_stat_info">
+                                    <field  name="support_formation_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Support formation</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_sondage">
+                                <div class="o_stat_info">
+                                    <field  name="sondage_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Sondage</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_signature">
+                                <div class="o_stat_info">
+                                    <field  name="signature_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Signature</span>
+                                </div>
+                            </button>
+                           <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation_debrief">
+                                <div class="o_stat_info">
+                                    <field  name="formation_debrief_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Compte-rendu</span>
+                                </div>
+                            </button>
+
+                        </div>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Ventes,Achats..."/>
+                            </h1>
+                        </div>
+                        <!-- View form description
+                            Je veux que le champs attendees n'herite pas du widget
+                            du champs attendees dans le notebook page_invitations ? Comment faire ?
+                         -->
+                        <div class="d-flex align-items-baseline">
+                            <field name="attendees" widget="many2many_tags"
+                                placeholder="Select attendees..."
+                                context="{'force_email':True}"
+                                class="oe_inline o_calendar_attendees"
+                            />
+                                <div name="send_buttons" class="sm-2">
+                                    <button name="action_open_composer" help="Send Email to attendees" type="object" string=" EMAIL" icon="fa-envelope"/>
+                                </div>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="details" string="Détails de la session">
+                                <group>
+                                    <group>
+                                        <field name="formation_id" widget="selection" attrs="{'readonly':[('formation_id','!=', False)]}" />
+                                        <field name="teacher" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        <field name="start" string="Commence à" attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)]}"/>
+                                        <field name="stop" string="Fini à" attrs="{'invisible': [('allday','=',True)]}"/>
+                                        <label for="duration" attrs="{'invisible': [('allday','=',True)]}"/>
+                                        <div attrs="{'invisible': [('allday','=',True)]}">
+                                            <field name="duration" string="Durée" widget="float_time" class="oe_inline" attrs="{'readonly': [('id', '!=', False)]}"/>
+                                            <span> hours</span>
+                                        </div>
+                                        <field name="allday" type="boolean"/>
+                                    </group>
+                                    <group>
+                                        <field name="partner_id" attrs="{'readonly':[('partner_id','!=', False)]}" />
+                                        <field name="address_id"
+                                               context="{'show_address' : 1}"
+                                               widget="contact"
+                                               options='{"always_reload": True}'
+                                        />
+                                        <field name="formation_url"
+                                           attrs="{'readonly':[('formation_url','!=','False')]}"
+                                           widget="url" />
+                                        <field name="formation_modules" />
+                                        <field name="acces_link" />
+                                    </group>
+                                </group>
+                            </page>
+                        <!--    <page name="page_invitations" string="Invitations" groups="base.group_no_one">
+
+                                <button name="action_sendmail" type="object" string="Send Invitations" icon="fa-envelope" class="oe_link"/>
+                                <field name="attendees2" widget="many2many"  mode="tree" readonly="1">
+                                    <tree string="Invitation details" editable="top" create="false" delete="false">
+                                        <field name="name" />
+                                        <field name="email" widget="email"/>
+                                        <field name="phone" widget="phone"/>
+                                        <field name="states" />
+                                        <button name="action_do_tentative" string="Uncertain" type="object" icon="fa-asterisk" />
+                                        <button name="action_do_accept"  string="Accept" type="object" icon="fa-check text-success"/>
+                                        <button name="action_do_decline" string="Decline" type="object" icon="fa-times-circle text-danger"/>
+
+                                    </tree>
+                                </field>
+
+                            </page>
+                            -->
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions button -->
+        <record id="action_confirm_sessions" model="ir.actions.server">
+            <field name="name">Confirm sessions</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_formations_sessions"/>
+            <field name="binding_model_id" ref="model_formations_sessions"/>
+            <field name="state">code</field>
+            <field name="code">records.action_confirm()</field>
+        </record>
+
+        <record id="action_end_sessions" model="ir.actions.server">
+            <field name="name">End sessions</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_formations_sessions"/>
+            <field name="binding_model_id" ref="model_formations_sessions"/>
+            <field name="state">code</field>
+            <field name="code">records.action_end_session()</field>
+        </record>
+
+        <record id="action_cancel_sessions" model="ir.actions.server">
+            <field name="name">Cancel sessions</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_formations_sessions"/>
+            <field name="binding_model_id" ref="model_formations_sessions"/>
+            <field name="state">code</field>
+            <field name="code">records.action_cancel()</field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_formations_sessions_records" model="ir.actions.act_window" >
+            <field name="name">Sessions</field>
+            <field name="res_model">formations.sessions</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

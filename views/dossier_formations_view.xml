@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_dossier_formations_tree" model="ir.ui.view">
+            <field name="name">dossier.formations.tree</field>
+            <field name="model">dossier.formations</field>
+            <field name="arch" type="xml">
+                <tree string="Dossier de formations" sample="1" >
+                    <field name="name"/>
+                    <field name="partner_id" />
+                    <field name="slide_type" />
+                    <field name="documents_name" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_dossier_formations_form" model="ir.ui.view">
+            <field name="name">dossier.formations.form</field>
+            <field name="model">dossier.formations</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_formation_folder" id="action_send_formation_folder" data-hotkey="v" string="Envoie du dossier de formation" class="btn-primary" type="object" />
+                    </header>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <!-- View form description -->
+                        <group>
+                            <group>
+                                <field name="partner_id" attrs="{'readonly':[('partner_id','!=', False)]}" />
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="formation_id" attrs="{'readonly':[('formation_id','!=', False)]}"  />
+                                <field name="slide_type" />
+                                <field name="formation_url" attrs="{'invisible':[('slide_type','=','document')]}" widget="url" />
+                                <field name="documents" filename="documents_name"  attrs="{'invisible':[('slide_type','=','url')]}"/>
+                                <field name="documents_name" invisible='1' />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+       <!-- Action mass mail -->
+        <record model="ir.actions.server" id="action_send_dossier_formation">
+            <field name="name">Envoi du dossier de formation</field>
+            <field name="model_id" ref="model_dossier_formations"/>
+            <field name="binding_model_id" ref="model_dossier_formations" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    for record in records:
+                        record.action_send_formation_folder()
+            </field>
+        </record>
+
+
+
+        <!-- Actions -->
+        <record id="action_dossier_formations_records" model="ir.actions.act_window" >
+            <field name="name">Dossier de formations</field>
+            <field name="res_model">dossier.formations</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

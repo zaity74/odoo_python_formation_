@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record model="ir.ui.view" id="view_formations_participants_tree">
+            <field name="name">formations.attendees.tree</field>
+            <field name="model">formations.attendees</field>
+            <field name="arch" type="xml">
+                <tree string="Participants">
+                    <field name="create_date" optional="show" string="Registration Date"/>
+                    <field name="date_open" optional="hide"/>
+                    <field name="name"/>
+                    <field name="partner_id" optional="hide"/>
+                    <field name="email" optional="show"/>
+                    <field name="phone" optional="show"/>
+                    <field name="mobile" optional="hide"/>
+                    <field name="formation_id" widget="many2many_tags"/>
+                    <field name="state" readonly="0"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                    <button name="action_confirm" string="Confirm" states="draft" type="object" icon="fa-check"/>
+                    <button name="action_cancel" string="Cancel" states="draft,open" type="object" icon="fa-times"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record model="ir.ui.view" id="view_formations_participants_form">
+            <field name="name">formations.attendees.form</field>
+            <field name="model">formations.attendees</field>
+            <field name="arch" type="xml">
+                <form string="Participants">
+                    <header>
+                        <button name="action_send_badge_email" string="Envoyer la convocation" type="object" states="open" class="oe_highlight"/>
+                        <button name="action_confirm" string="Confirmé" states="draft" type="object" class="oe_highlight"/>
+                        <button name="action_set_draft" string="Marqué comme non confirmé" states="cancel" type="object" />
+                        <button name="action_cancel" string="Annuler la confirmation" states="draft,open" type="object"/>
+                        <field name="state" nolabel="1" colspan="2" widget="statusbar" statusbar_visible="cancel,draft,open"/>
+                    </header>
+                    <sheet string="Participant">
+                        <!-- Smart Button section -->
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_fiche_emargement">
+                                <div class="o_stat_info">
+                                    <field  name="fiche_emargement_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Fiche d'émargement</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_session">
+                                <div class="o_stat_info">
+                                    <field  name="session_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Sessions</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_evaluation">
+                                <div class="o_stat_info">
+                                    <field  name="eval_count" widget="statinfo" class="o_stat_value"/>
+                                    <span class="o_stat_text">Evaluation</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group string="Participant" >
+                                <field name="partner_id" attrs="{'readonly':[('partner_id', '!=', False)]}"/>
+                                <field class="o_text_overflow" name="name"/>
+                                <field name="email"/>
+                                <field name="phone" class="o_force_ltr"/>
+                                <field name="mobile" class="o_force_ltr"/>
+                                <field name="reference" class="o_force_ltr"/>
+                            </group>
+                            <group string="Information sur la formation" >
+                                <field class="o_text_overflow" name="formation_id" widget="many2many_tags" attrs="{'readonly':[('formation_id','!=', False)]}"  />
+                                <field name="date_open" groups="base.group_no_one"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Actions -->
+        <record id="action_formations_participants_records" model="ir.actions.act_window" >
+            <field name="name">Participants</field>
+            <field name="res_model">formations.attendees</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

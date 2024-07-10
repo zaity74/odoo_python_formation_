@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="survey_invite_view_form_custom_phidias" model="ir.ui.view">
+        <field name="name">survey.invite.view.form.inherit.formation.phi.bis</field>
+        <field name="model">survey.invite</field>
+        <field name="inherit_id" ref="survey.survey_invite_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ids']" position="before">
+                <field name="formation_id" />
+                <field name="session_id" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

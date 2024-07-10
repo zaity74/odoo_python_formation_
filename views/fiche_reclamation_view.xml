@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_fiche_reclamation_tree" model="ir.ui.view">
+            <field name="name">fiche.reclamation.tree</field>
+            <field name="model">fiche.reclamation</field>
+            <field name="arch" type="xml">
+                <tree string="FIche de réclamations" sample="1">
+                    <field name="name"/>
+                    <field name="formation_id" />
+                    <field name="formation_modules" widget="many2many_tags"  />
+                    <field name="formation_date" />
+                    <field name="slide_type" />
+                    <field name="documents_name" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_fiche_reclamation_form" model="ir.ui.view">
+            <field name="name">fiche.reclamation.form</field>
+            <field name="model">fiche.reclamation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" />
+                            </h1>
+                        </div>
+                        <!-- View form description -->
+                        <group>
+                            <group>
+                                <field name="formation_id" attrs="{'readonly':[('formation_id','!=', False)]}" />
+                                <field name="formation_date" attrs="{'readonly':[('formation_date','!=', False)]}" />
+                                <field name="formation_modules" widget="many2many_tags" />
+                                <field name="slide_type" />
+                                <field name="formation_url" attrs="{'invisible':[('slide_type','=','document')]}" widget="url" />
+                                <field name="documents" filename="documents_name"  attrs="{'invisible':[('slide_type','=','url')]}"/>
+                                <field name="documents_name" invisible='1' />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids" />
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_fiche_reclamation_records" model="ir.actions.act_window" >
+            <field name="name">Fiche de réclamations</field>
+            <field name="res_model">fiche.reclamation</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

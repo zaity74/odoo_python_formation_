@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree -->
+    <record id="survey_user_input_view_tree_custom_phidias" model="ir.ui.view">
+    <field name="name">survey.user_input.view.tree.inherit.formation.phi.bis</field>
+    <field name="model">survey.user_input</field>
+    <field name="inherit_id" ref="survey.survey_user_input_view_tree"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="before">
+            <field name="formation_id" required="1" />
+            <field name="session_id"  required="1"/>
+            </xpath>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="multi_edit">1</attribute>
+        </xpath>
+    </field>
+    </record>
+
+
+    <!-- Form -->
+     <record id="survey_user_input_view_form_custom_phidias" model="ir.ui.view">
+        <field name="name">survey.user_input.view.form.inherit.formation.phi.bis</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="formation_id" />
+                <field name="session_id" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

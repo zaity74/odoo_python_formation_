@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_order_form_view_inheri_formation_phi_bist" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.formation.phi.bis</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" icon="fa-calendar" type="object" name="action_open_formation">
+                    <div class="o_stat_info">
+                        <field  name="formation_count" widget="statinfo" class="o_stat_value"/>
+                        <span class="o_stat_text">Formations</span>
+                    </div>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_formations_modules_tree" model="ir.ui.view">
+            <field name="name">formations.modules.tree</field>
+            <field name="model">formations.modules</field>
+            <field name="arch" type="xml">
+                <tree string="Sessions" sample="1">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_formations_modules_form" model="ir.ui.view">
+            <field name="name">formations.modules.form</field>
+            <field name="model">formations.modules</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Ventes,Achats..."/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_formations_modules_records" model="ir.actions.act_window" >
+            <field name="name">Modules</field>
+            <field name="res_model">formations.modules</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

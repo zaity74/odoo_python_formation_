@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="view_lost_reason_phidias" model="ir.ui.view">
+            <field name="name">crm.lost.reason.custom.phidias</field>
+            <field name="model">crm.lost.reason</field>
+            <field name="inherit_id" ref="crm.crm_lost_reason_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="string">Motifs d'annulation</attribute>
+                </xpath>
+            </field>
+        </record>
+
+         <!-- Actions -->
+        <record id="action_lost_reason_phidias_records" model="ir.actions.act_window" >
+            <field name="name">Motifs Annulation </field>
+            <field name="res_model">crm.lost.reason</field>
+            <field name="view_id" ref="view_lost_reason_phidias" />
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="survey_survey_view_form_custom_phidias" model="ir.ui.view">
+        <field name="name">survey.survey.view.form.inherit.formation.phi.bis</field>
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="session_id" attrs="{'invisible':[('user_id','!=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

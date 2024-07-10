@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="view_demande_formations_tree" model="ir.ui.view">
+            <field name="name">demande.formations.tree</field>
+            <field name="model">demande.formations</field>
+            <field name="arch" type="xml">
+                <tree string="Demande de formations" sample="1">
+                    <field name="name"/>
+                    <field name="formation_id" />
+                    <field name="formation_modules" />
+                    <field name="formation_date" />
+                    <field name="slide_type" />
+                    <field name="documents_name" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_demande_formations_form" model="ir.ui.view">
+            <field name="name">demande.formations.form</field>
+            <field name="model">demande.formations</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!-- View Form Header -->
+                        <div class="oe_title">
+                            <div>
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" />
+                            </h1>
+                        </div>
+                        <!-- View form description -->
+                        <group>
+                            <group>
+                                <field name="formation_id" />
+                                <field name="formation_date" />
+                                <field name="formation_modules" widget="many2many_tags" />
+                                <field name="slide_type" />
+                                <field name="formation_url" attrs="{'invisible':[('slide_type','=','document')]}" widget="url" />
+                                <field name="documents" filename="documents_name"  attrs="{'invisible':[('slide_type','=','url')]}"/>
+                                <field name="documents_name" invisible='1' />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Actions button -->
+        <record id="action_send_formation_folder" model="ir.actions.server">
+            <field name="name">Envoie doissier de formation</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_demande_formations"/>
+            <field name="binding_model_id" ref="model_demande_formations"/>
+            <field name="state">code</field>
+            <field name="code">records.action_send_formation_folder()</field>
+        </record>
+        <!-- Actions -->
+        <record id="action_demande_formations_records" model="ir.actions.act_window" >
+            <field name="name">Demande de formations</field>
+            <field name="res_model">demande.formations</field>
+            <field name="view_id" ref="" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>
